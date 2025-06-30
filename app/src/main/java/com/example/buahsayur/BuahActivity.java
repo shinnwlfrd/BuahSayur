@@ -24,7 +24,6 @@ public class BuahActivity extends AppCompatActivity {
 
     private DBHelper dbHelper;
     private List<Buah> daftarBuah;
-    private int currentIndex = 0;
     private Random random;
 
     @Override
@@ -41,7 +40,7 @@ public class BuahActivity extends AppCompatActivity {
         random = new Random();
 
         if (!daftarBuah.isEmpty()) {
-            tampilkanData(currentIndex);
+            tampilkanData();
         } else {
             NamaBuah.setText("Tidak ada data");
         }
@@ -49,7 +48,7 @@ public class BuahActivity extends AppCompatActivity {
         BackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                onBackPressed();
 
             }
         });
@@ -57,17 +56,12 @@ public class BuahActivity extends AppCompatActivity {
         NextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (currentIndex < daftarBuah.size() - 1){
-                    currentIndex++;
-                } else {
-                    currentIndex = 0;
-                }
-                tampilkanData(currentIndex);
+                tampilkanData();
             }
         });
 
         }
-        private void tampilkanData(int index) {
+        private void tampilkanData() {
             int randomIndex = random.nextInt(daftarBuah.size());
             Buah buah = daftarBuah.get(randomIndex);
             NamaBuah.setText(buah.getNama());

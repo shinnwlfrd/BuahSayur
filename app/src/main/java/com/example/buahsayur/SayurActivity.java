@@ -20,7 +20,6 @@ public class SayurActivity extends AppCompatActivity {
 
     private DBHelper dbHelper;
     private List<Sayur> daftarSayur;
-    private int currentIndex = 0;
     private Random random;
 
     @Override
@@ -37,7 +36,7 @@ public class SayurActivity extends AppCompatActivity {
         random = new Random();
 
         if (!daftarSayur.isEmpty()) {
-            tampilkanData(currentIndex);
+            tampilkanData();
         } else {
             NamaSayur.setText("Tidak ada data");
         }
@@ -45,7 +44,7 @@ public class SayurActivity extends AppCompatActivity {
         BackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                onBackPressed();
 
             }
         });
@@ -53,17 +52,12 @@ public class SayurActivity extends AppCompatActivity {
         NextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (currentIndex < daftarSayur.size() - 1){
-                    currentIndex++;
-                } else {
-                    currentIndex = 0;
-                }
-                tampilkanData(currentIndex);
+                tampilkanData();
             }
         });
 
     }
-    private void tampilkanData(int index) {
+    private void tampilkanData() {
         int randomIndex = random.nextInt(daftarSayur.size());
         Sayur sayur = daftarSayur.get(randomIndex);
         NamaSayur.setText(sayur.getNama());

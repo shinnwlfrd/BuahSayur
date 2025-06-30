@@ -9,4 +9,5 @@
     <color name="orange_button">#FF5722</color>
     <color name="gren_button">#528E08</color>
     <color name="green_button">#7BAA42</color>
+    <color name="transparent">#00000000</color>
 </resources>

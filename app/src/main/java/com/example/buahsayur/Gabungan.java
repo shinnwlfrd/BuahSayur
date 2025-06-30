@@ -4,11 +4,13 @@ public class Gabungan {
     private int id;
     private String nama;
     private int gambar;
+    private int audio;
 
-    public Gabungan(int id, String nama, int gambar){
+    public Gabungan(int id, String nama, int gambar, int audio){
         this.id = id;
         this.nama = nama;
         this.gambar = gambar;
+        this.audio = audio;
     }
     public int getId(){
         return id;
@@ -19,4 +21,5 @@ public class Gabungan {
     public int getGambar(){
         return gambar;
     }
+    public int getAudio(){ return  audio;}
 }
