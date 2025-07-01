@@ -1,17 +1,14 @@
 package com.example.buahsayur;
 
 import android.media.MediaPlayer;
-import android.media.audiofx.Visualizer;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
-
+import android.webkit.WebView;
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.chibde.visualizer.BarVisualizer;
 
 import java.util.List;
 import java.util.Locale;
@@ -21,13 +18,14 @@ public class PronunciationActivity extends AppCompatActivity {
 
     ImageView imageView;
     TextToSpeech textToSpeech;
+    WebView gifView;
     private DBHelper dbHelper;
     private List<Gabungan> daftarSemua;
     Random random = new Random();
     private int currentIndex;
-    ImageButton BackButton, NextButton;
+    ImageButton BackButton, NextButton, playButton;
     private MediaPlayer mediaPlayer;
-    private Visualizer visualizer;
+    private boolean isPlaying = false;
 
 
     @Override
@@ -38,9 +36,15 @@ public class PronunciationActivity extends AppCompatActivity {
         BackButton = findViewById(R.id.back);
         NextButton = findViewById(R.id.Next);
         imageView = findViewById(R.id.gambarSayur);
-        View audioVisualization = findViewById(R.id.audioVisualization);
+        playButton = findViewById(R.id.playButton);
         dbHelper = new DBHelper(this);
         daftarSemua = dbHelper.getAllBuahSayur();
+        gifView = findViewById(R.id.audioGif);
+        gifView.getSettings().setLoadWithOverviewMode(true);
+        gifView.getSettings().setUseWideViewPort(true);
+        gifView.setBackgroundColor(0x00000000);
+        gifView.setBackgroundDrawable(null);
+        gifView.setLayerType(WebView.LAYER_TYPE_SOFTWARE, null);
 
         BackButton.setOnClickListener(v -> onBackPressed());
         NextButton.setOnClickListener(v -> tampilkanGambar());
@@ -52,8 +56,44 @@ public class PronunciationActivity extends AppCompatActivity {
                 textToSpeech.setLanguage(Locale.getDefault());
             }
         });
-        findViewById(R.id.playAudioButton).setOnClickListener(v -> bacakanNama());
+        playButton.setOnClickListener(v -> {
+            if (daftarSemua == null || daftarSemua.isEmpty()) {
+                Toast.makeText(this, "Data Kosong", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
+            Gabungan item = daftarSemua.get(currentIndex);
+            int audioResId = item.getAudio();
+
+            if (mediaPlayer != null) {
+                mediaPlayer.release();
+                mediaPlayer = null;
+            }
+
+            gifView.loadUrl("file:///android_asset/sound.gif");
+            gifView.setVisibility(View.VISIBLE);
+
+            mediaPlayer = MediaPlayer.create(this, audioResId);
+            if (mediaPlayer == null) {
+                Toast.makeText(this, "Gagal memutar audio", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            mediaPlayer.setOnPreparedListener(mp -> {
+                mediaPlayer.start();
+                isPlaying = true;
+                playButton.setImageResource(R.drawable.pause); // Ganti ikon ke pause
+            });
+
+            mediaPlayer.setOnCompletionListener(mp -> {
+                gifView.setVisibility(View.GONE); // Sembunyikan animasi
+                playButton.setImageResource(R.drawable.ic_play); // Kembali ke play
+                isPlaying = false;
+
+                mediaPlayer.release();
+                mediaPlayer = null;
+            });
+        });
     }
 
     private void tampilkanGambar() {
@@ -63,71 +103,13 @@ public class PronunciationActivity extends AppCompatActivity {
         imageView.setImageResource(item.getGambar());
     }
 
-    private void bacakanNama() {
-        if (daftarSemua == null || daftarSemua.isEmpty()) {
-            Toast.makeText(this, "Data Kosong", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        Gabungan item = daftarSemua.get(currentIndex);
-        int audioResId = item.getAudio();
-        BarVisualizer visualizerView = findViewById(R.id.audioVisualization);
-
-        if (mediaPlayer != null) {
-            mediaPlayer.release();
-            mediaPlayer = null;
-        }
-
-        mediaPlayer = MediaPlayer.create(this, audioResId);
-        mediaPlayer.setOnPreparedListener(mp -> {
-            setupVisualizer(mp.getAudioSessionId(), visualizerView);
-            visualizerView.setVisibility(View.VISIBLE);
-            mediaPlayer.start();
-        });
-
-        mediaPlayer.setOnCompletionListener(mp -> {
-            visualizerView.setVisibility(View.GONE);
-            if (visualizer != null) {
-                visualizer.release();
-            }
-        });
-    }
-
-
-    private void setupVisualizer(int audioSessionId, BarVisualizer visualizerView) {
-        if (visualizer != null) {
-            visualizer.release();
-        }
-
-        visualizer = new Visualizer(audioSessionId);
-        visualizer.setCaptureSize(Visualizer.getCaptureSizeRange()[1]);
-        visualizer.setDataCaptureListener(new Visualizer.OnDataCaptureListener() {
-            @Override
-            public void onWaveFormDataCapture(Visualizer visualizer, byte[] waveform, int samplingRate) {
-            }
-
-            @Override
-            public void onFftDataCapture(Visualizer visualizer, byte[] fft, int samplingRate) {}
-        }, Visualizer.getMaxCaptureRate() / 2, true, false);
-        visualizer.setEnabled(true);
-    }
-
 
     @Override
     protected void onDestroy() {
-        if (textToSpeech != null) {
-            textToSpeech.stop();
-            textToSpeech.shutdown();
-        }
+        super.onDestroy();
         if (mediaPlayer != null) {
             mediaPlayer.release();
             mediaPlayer = null;
         }
-
-        if (findViewById(R.id.audioVisualization) != null) {
-            ((BarVisualizer) findViewById(R.id.audioVisualization)).release();
-        }
-
-        super.onDestroy();
     }
 }

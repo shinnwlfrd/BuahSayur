@@ -235,4 +235,19 @@ public class DBHelper extends SQLiteOpenHelper {
         return list;
     }
 
+    public String getAudioPath(String namaItem) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String audioPath = null;
+
+        Cursor cursor = db.rawQuery("SELECT audio FROM tabel_buah_sayur WHERE nama = ?", new String[]{namaItem});
+        if (cursor.moveToFirst()) {
+            audioPath = cursor.getString(0);
+        }
+        cursor.close();
+        db.close();
+        return audioPath;
+    }
+
+
 }
+

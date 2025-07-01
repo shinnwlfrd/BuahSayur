@@ -8,7 +8,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
-
+import androidx.core.content.ContextCompat;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
@@ -58,7 +58,7 @@ public class QuizOptionActivity extends AppCompatActivity {
 
             resetShadow();
             selectedButton = (Button) v;
-            applyShadow(selectedButton, "#AAAAAA");
+            applyShadow(selectedButton, "#7BAA42");
         };
 
         btnA.setOnClickListener(pilihanListener);
@@ -116,31 +116,43 @@ public class QuizOptionActivity extends AppCompatActivity {
         jawabanSudahDiverifikasi = true;
         checkIcon.setBackgroundResource(R.drawable.arrow_right);
 
-        if (selectedButton.getText().toString().equals(correctAnswer)) {
-            applyShadow(selectedButton, "#00FF00");
-        } else {
-            applyShadow(selectedButton, "#FF0000");
-            // Highlight jawaban yang benar
-            for (Button btn : new Button[]{btnA, btnB, btnC, btnD}) {
-                if (btn.getText().toString().equals(correctAnswer)) {
-                    applyShadow(btn, "#00FF00");
+        String selectedText = selectedButton.getText().toString();
+
+        for (Button btn : new Button[]{btnA, btnB, btnC, btnD}) {
+            String btnText = btn.getText().toString();
+
+            if (btn == selectedButton) {
+                if (btnText.equals(correctAnswer)) {
+                    applyShadow(btn, "#7BAA42");
+                    Toast.makeText(this, "Benar!", Toast.LENGTH_SHORT).show();
+                } else {
+                    applyWrongShadow(btn);
+                    Toast.makeText(this, "Salah!", Toast.LENGTH_SHORT).show();
                 }
+            } else if (btnText.equals(correctAnswer)) {
+                applyShadow(btn, "#7BAA42");
             }
         }
     }
 
+
     private void resetShadow() {
         for (Button btn : new Button[]{btnA, btnB, btnC, btnD}) {
             btn.setBackgroundTintList(getResources().getColorStateList(R.color.green_button));
-            btn.setBackground(null);
+            btn.setBackground(ContextCompat.getDrawable(this,R.drawable.gren_lengkung));
         }
     }
 
     private void applyShadow(Button button, String shadowColor) {
         GradientDrawable drawable = new GradientDrawable();
-        drawable.setColor(Color.WHITE);
+        drawable.setColor(Color.rgb(5,40,232));
         drawable.setCornerRadius(20);
         drawable.setStroke(5, Color.parseColor(shadowColor));
         button.setBackground(drawable);
+    }
+    private void applyWrongShadow(Button btn) {
+            btn.setBackgroundTintList(getResources().getColorStateList(R.color.wrong));
+            btn.setBackground(ContextCompat.getDrawable(this, R.drawable.wrong_lengkung));
+
     }
 }
