@@ -3,10 +3,12 @@ package com.example.buahsayur;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.core.content.ContextCompat;
 import androidx.appcompat.app.AppCompatActivity;
@@ -116,18 +118,16 @@ public class QuizOptionActivity extends AppCompatActivity {
         jawabanSudahDiverifikasi = true;
         checkIcon.setBackgroundResource(R.drawable.arrow_right);
 
-        String selectedText = selectedButton.getText().toString();
-
         for (Button btn : new Button[]{btnA, btnB, btnC, btnD}) {
             String btnText = btn.getText().toString();
 
             if (btn == selectedButton) {
                 if (btnText.equals(correctAnswer)) {
                     applyShadow(btn, "#7BAA42");
-                    Toast.makeText(this, "Benar!", Toast.LENGTH_SHORT).show();
+                    showCustomToast("Benar!", true);
                 } else {
                     applyWrongShadow(btn);
-                    Toast.makeText(this, "Salah!", Toast.LENGTH_SHORT).show();
+                    showCustomToast("Salah!", false);
                 }
             } else if (btnText.equals(correctAnswer)) {
                 applyShadow(btn, "#7BAA42");
@@ -135,6 +135,25 @@ public class QuizOptionActivity extends AppCompatActivity {
         }
     }
 
+    private void showCustomToast(String message, boolean isCorrect) {
+        LayoutInflater inflater = getLayoutInflater();
+        View layout = inflater.inflate(R.layout.toast, findViewById(android.R.id.content), false);
+
+        TextView text = layout.findViewById(R.id.text);
+        ImageView icon = layout.findViewById(R.id.icon);
+
+        text.setText(message);
+        if (isCorrect) {
+            icon.setImageResource(R.drawable.ic_check);
+        } else {
+            icon.setImageResource(R.drawable.ic_cross);
+        }
+
+        android.widget.Toast toast = new android.widget.Toast(getApplicationContext());
+        toast.setDuration(android.widget.Toast.LENGTH_SHORT);
+        toast.setView(layout);
+        toast.show();
+    }
 
     private void resetShadow() {
         for (Button btn : new Button[]{btnA, btnB, btnC, btnD}) {
