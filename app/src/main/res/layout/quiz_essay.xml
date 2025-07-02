@@ -69,6 +69,7 @@
 
 
     <ImageView
+        android:id="@+id/checkIcon"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:background="@drawable/check"

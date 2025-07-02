@@ -26,6 +26,7 @@ public class PronunciationActivity extends AppCompatActivity {
     ImageButton BackButton, NextButton, playButton;
     private MediaPlayer mediaPlayer;
     private boolean isPlaying = false;
+    private int previousIndex = -1;
 
 
     @Override
@@ -82,26 +83,36 @@ public class PronunciationActivity extends AppCompatActivity {
             mediaPlayer.setOnPreparedListener(mp -> {
                 mediaPlayer.start();
                 isPlaying = true;
-                playButton.setImageResource(R.drawable.pause); // Ganti ikon ke pause
+                playButton.setImageResource(R.drawable.pause);
             });
 
             mediaPlayer.setOnCompletionListener(mp -> {
-                gifView.setVisibility(View.GONE); // Sembunyikan animasi
-                playButton.setImageResource(R.drawable.ic_play); // Kembali ke play
+                gifView.setVisibility(View.GONE);
+                playButton.setImageResource(R.drawable.ic_play);
                 isPlaying = false;
 
                 mediaPlayer.release();
                 mediaPlayer = null;
             });
         });
+        tampilkanGambar();
     }
 
     private void tampilkanGambar() {
         if (daftarSemua.isEmpty()) return;
-        currentIndex = random.nextInt(daftarSemua.size());
+
+        int newIndex;
+        do {
+            newIndex = random.nextInt(daftarSemua.size());
+        } while (daftarSemua.size() > 1 && newIndex == previousIndex);
+
+        previousIndex = newIndex;
+        currentIndex = newIndex;
+
         Gabungan item = daftarSemua.get(currentIndex);
         imageView.setImageResource(item.getGambar());
     }
+
 
 
     @Override
