@@ -1,68 +1,62 @@
 package com.example.buahsayur;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.List;
-import java.util.Random;
-
 public class BuahActivity extends AppCompatActivity {
 
-    ImageButton BackButton;
-    ImageButton NextButton;
-    ImageView GambarBuah;
-    TextView NamaBuah;
+    private static final int REQUEST_IMAGE_CAPTURE = 1;
 
-    private DBHelper dbHelper;
-    private List<Buah> daftarBuah;
-    private Random random;
+    ImageView gambarBuah;
+    TextView namaBuah;
+    ImageButton nextButton, backButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.buah);
 
-        GambarBuah = findViewById(R.id.gambarBuah);
-        NamaBuah = findViewById(R.id.namaBuah);
-        BackButton = findViewById(R.id.back);
-        NextButton = findViewById(R.id.Next);
-        dbHelper = new DBHelper(this);
-        daftarBuah = dbHelper.getAllBuah();
-        random = new Random();
+        gambarBuah = findViewById(R.id.gambarBuah);
+        namaBuah = findViewById(R.id.namaBuah);
+        nextButton = findViewById(R.id.Next);
+        backButton = findViewById(R.id.back);
 
-        if (!daftarBuah.isEmpty()) {
-            tampilkanData();
+        nextButton.setOnClickListener(v -> openCamera());
+
+        backButton.setOnClickListener(v -> finish());
+    }
+
+    private void openCamera() {
+        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (cameraIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(cameraIntent, REQUEST_IMAGE_CAPTURE);
         } else {
-            NamaBuah.setText("Tidak ada data");
+            Toast.makeText(this, "Kamera tidak tersedia", Toast.LENGTH_SHORT).show();
         }
+    }
 
-        BackButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK && data != null) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
 
+            if (imageBitmap != null) {
+                gambarBuah.setImageBitmap(imageBitmap);
+                namaBuah.setText("Foto berhasil diambil");
+            } else {
+                namaBuah.setText("Gagal mengambil gambar");
             }
-        });
-
-        NextButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tampilkanData();
-            }
-        });
-
         }
-        private void tampilkanData() {
-            int randomIndex = random.nextInt(daftarBuah.size());
-            Buah buah = daftarBuah.get(randomIndex);
-            NamaBuah.setText(buah.getNama());
-            GambarBuah.setImageResource(buah.getGambar());
-
-
     }
 }

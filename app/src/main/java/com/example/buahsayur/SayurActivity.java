@@ -1,68 +1,62 @@
 package com.example.buahsayur;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.List;
-import java.util.Random;
-
 public class SayurActivity extends AppCompatActivity {
 
-    ImageButton BackButton;
-    ImageButton NextButton;
-    ImageView GambarSayur;
-    TextView NamaSayur;
+    private static final int REQUEST_IMAGE_CAPTURE = 1;
 
-    private DBHelper dbHelper;
-    private List<Sayur> daftarSayur;
-    private Random random;
+    ImageView gambarSayur;
+    TextView namaSayur;
+    ImageButton nextButton, backButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sayur);
 
-        GambarSayur = findViewById(R.id.gambarSayur);
-        NamaSayur = findViewById(R.id.namaSayur);
-        BackButton = findViewById(R.id.back);
-        NextButton = findViewById(R.id.Next);
-        dbHelper = new DBHelper(this);
-        daftarSayur = dbHelper.getAllSayur();
-        random = new Random();
+        gambarSayur = findViewById(R.id.gambarSayur);
+        namaSayur = findViewById(R.id.namaSayur);
+        nextButton = findViewById(R.id.Next);
+        backButton = findViewById(R.id.back);
 
-        if (!daftarSayur.isEmpty()) {
-            tampilkanData();
-        } else {
-            NamaSayur.setText("Tidak ada data");
-        }
+        nextButton.setOnClickListener(v -> openCamera());
 
-        BackButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-
-            }
-        });
-
-        NextButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tampilkanData();
-            }
-        });
-
+        backButton.setOnClickListener(v -> finish());
     }
-    private void tampilkanData() {
-        int randomIndex = random.nextInt(daftarSayur.size());
-        Sayur sayur = daftarSayur.get(randomIndex);
-        NamaSayur.setText(sayur.getNama());
-        GambarSayur.setImageResource(sayur.getGambar());
 
+    private void openCamera() {
+        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (cameraIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(cameraIntent, REQUEST_IMAGE_CAPTURE);
+        } else {
+            Toast.makeText(this, "Kamera tidak tersedia", Toast.LENGTH_SHORT).show();
+        }
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK && data != null) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+
+            if (imageBitmap != null) {
+                gambarSayur.setImageBitmap(imageBitmap);
+                namaSayur.setText("Foto berhasil diambil");
+            } else {
+                namaSayur.setText("Gagal mengambil gambar");
+            }
+        }
     }
 }
