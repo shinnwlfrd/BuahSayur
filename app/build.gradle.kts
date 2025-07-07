@@ -47,5 +47,6 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
     implementation("io.github.gautamchibde:audiovisualizer:2.2.5")
     implementation("org.tensorflow:tensorflow-lite:2.10.0")
+    implementation('com.alphacephei:vosk-android:0.3.39')
 
 }
