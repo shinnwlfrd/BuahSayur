@@ -1,5 +1,6 @@
 package com.example.buahsayur;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
@@ -32,6 +33,10 @@ public class QuizOptionActivity extends AppCompatActivity {
     private Button selectedButton = null;
     private boolean jawabanSudahDiverifikasi = false;
 
+    private int totalScore = 0;
+    private int questionCount = 0;
+    private final int MAX_QUESTIONS = 10;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +59,7 @@ public class QuizOptionActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, "Tidak ada data", Toast.LENGTH_SHORT).show();
         }
+
 
         View.OnClickListener pilihanListener = v -> {
             if (jawabanSudahDiverifikasi) return;
@@ -87,6 +93,11 @@ public class QuizOptionActivity extends AppCompatActivity {
     }
 
     private void tampilkanSoal() {
+        if (questionCount >= MAX_QUESTIONS) {
+            tampilkanSkorAkhir();
+            return;
+        }
+
         resetShadow();
 
         currentIndex = random.nextInt(daftarSemua.size());
@@ -112,6 +123,7 @@ public class QuizOptionActivity extends AppCompatActivity {
         btnD.setText(options.get(3));
 
         selectedButton = null;
+        questionCount++;
     }
 
     private void verifikasiJawaban() {
@@ -124,6 +136,7 @@ public class QuizOptionActivity extends AppCompatActivity {
             if (btn == selectedButton) {
                 if (btnText.equals(correctAnswer)) {
                     applyShadow(btn, "#7BAA42");
+                    totalScore += 10;
                     showCustomToast("Benar!", true);
                 } else {
                     applyWrongShadow(btn);
@@ -174,4 +187,13 @@ public class QuizOptionActivity extends AppCompatActivity {
             btn.setBackground(ContextCompat.getDrawable(this, R.drawable.wrong_lengkung));
 
     }
+
+    private void tampilkanSkorAkhir() {
+        Intent intent = new Intent(QuizOptionActivity.this, ScoreActivity.class);
+        intent.putExtra("SKOR_AKHIR", totalScore);
+        intent.putExtra("MAKSIMAL", MAX_QUESTIONS * 10);
+        startActivity(intent);
+        finish();
+    }
+
 }

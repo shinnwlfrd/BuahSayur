@@ -37,6 +37,10 @@ public class QuizPronenActivity extends AppCompatActivity {
     Random random = new Random();
     private int currentIndex;
 
+    private int totalScore = 0;
+    private int questionCount = 0;
+    private final int MAX_QUESTIONS = 10;
+
     @SuppressLint("MissingInflatedId")
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,17 +92,24 @@ public class QuizPronenActivity extends AppCompatActivity {
     }
 
     private void tampilkanSoal() {
+        if (questionCount >= MAX_QUESTIONS) {
+            tampilkanSkorAkhir();
+            return;
+        }
+
         if (daftarsemua.isEmpty()) return;
 
         currentIndex = random.nextInt(daftarsemua.size());
         Gabungan item = daftarsemua.get(currentIndex);
         imageView.setImageResource(item.getGambar());
+
+        questionCount++;
     }
     
     private void mulaiDeteksiSuara(ActivityResultLauncher<Intent> launcher) {
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "en-GB");
         intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Ucapkan nama gambar...");
 
         try {
@@ -114,6 +125,7 @@ public class QuizPronenActivity extends AppCompatActivity {
 
         if (userAnswer.contains(correctAnswer)) {
             txtResult.setText("✅ Benar!");
+            totalScore += 10;
             txtResult.setTextColor(getColor(android.R.color.holo_green_dark));
         } else {
             txtResult.setText("❌ Salah. Jawaban yang benar adalah: " + correctAnswer);
@@ -132,6 +144,14 @@ public class QuizPronenActivity extends AppCompatActivity {
                 Toast.makeText(this, "Izin mikrofon ditolak", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    private void tampilkanSkorAkhir() {
+        Intent intent = new Intent(QuizPronenActivity.this, ScoreActivity.class);
+        intent.putExtra("SKOR_AKHIR", totalScore);
+        intent.putExtra("MAKSIMAL", MAX_QUESTIONS * 10);
+        startActivity(intent);
+        finish();
     }
 
 }

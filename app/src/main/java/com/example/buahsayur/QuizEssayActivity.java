@@ -1,6 +1,7 @@
 package com.example.buahsayur;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -28,6 +29,10 @@ public class QuizEssayActivity extends AppCompatActivity {
     Random random = new Random();
     private int currentIndex;
     private boolean jawabanSudahDiverifikasi = false;
+
+    private int totalScore = 0;
+    private int questionCount = 0;
+    private final int MAX_QUESTIONS = 10;
 
     @SuppressLint("MissingInflatedId")
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +81,11 @@ public class QuizEssayActivity extends AppCompatActivity {
     }
 
     private void tampilkanSoal() {
+        if (questionCount >= MAX_QUESTIONS) {
+            tampilkanSkorAkhir();
+            return;
+        }
+
         if (daftarsemua.isEmpty()) return;
 
         currentIndex = random.nextInt(daftarsemua.size());
@@ -83,6 +93,8 @@ public class QuizEssayActivity extends AppCompatActivity {
 
         imageView.setImageResource(item.getGambar());
         EditAnswer.setText("");
+
+        questionCount++;
     }
 
     private void showCustomToast(String message, boolean isCorrect) {
@@ -114,12 +126,21 @@ public class QuizEssayActivity extends AppCompatActivity {
 
         if (userAnswer.equalsIgnoreCase(correctAnswer)) {
             EditAnswer.setBackgroundColor(Color.parseColor("#A5D6A7"));
+            totalScore += 10;
             showCustomToast("Jawaban Benar!", true);
         } else {
             showCustomToast("Salah! Jawaban: " + correctAnswer, false);
         }
 
         EditAnswer.setEnabled(false);
+    }
+
+    private void tampilkanSkorAkhir() {
+        Intent intent = new Intent(QuizEssayActivity.this, ScoreActivity.class);
+        intent.putExtra("SKOR_AKHIR", totalScore);
+        intent.putExtra("MAKSIMAL", MAX_QUESTIONS * 10);
+        startActivity(intent);
+        finish();
     }
 
 }

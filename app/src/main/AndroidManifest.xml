@@ -31,6 +31,7 @@
         <activity android:name=".QuizOptionActivity"
             tools:ignore="DuplicateActivity" />
         <activity android:name=".MainActivity"/>
+        <activity android:name=".ScoreActivity"/>
     </application>
 
 </manifest>
