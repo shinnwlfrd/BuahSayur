@@ -35,7 +35,7 @@
         android:id="@+id/gambarGabungan"
         android:layout_width="200dp"
         android:layout_height="200dp"
-        android:layout_marginTop="140dp"
+        android:layout_marginTop="110dp"
         android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
@@ -122,7 +122,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginBottom="30dp"/>
+        android:layout_marginBottom="60dp"/>
 
 
     <ImageView
@@ -133,7 +133,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginBottom="40dp"/>
+        android:layout_marginBottom="70dp"/>
 
 
 

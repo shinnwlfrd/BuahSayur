@@ -74,6 +74,11 @@ public class DBHelper extends SQLiteOpenHelper {
         values.put(SAYUR_AUDIO_RES_ID, R.raw.broccoli);
         db.insert(TABLE_SAYUR, null, values); values.clear();
 
+        values.put(SAYUR_NAMA, "Cabbage");
+        values.put(SAYUR_GAMBAR_RES_ID, R.drawable.cabbage);
+        values.put(SAYUR_AUDIO_RES_ID, R.raw.cabbage);
+        db.insert(TABLE_SAYUR, null, values); values.clear();
+
         values.put(SAYUR_NAMA, "Cauliflower");
         values.put(SAYUR_GAMBAR_RES_ID, R.drawable.cauliflower);
         values.put(SAYUR_AUDIO_RES_ID, R.raw.cauliflower);
@@ -87,6 +92,36 @@ public class DBHelper extends SQLiteOpenHelper {
         values.put(SAYUR_NAMA, "Carrot");
         values.put(SAYUR_GAMBAR_RES_ID, R.drawable.carrot);
         values.put(SAYUR_AUDIO_RES_ID, R.raw.carrots);
+        db.insert(TABLE_SAYUR, null, values); values.clear();
+
+        values.put(SAYUR_NAMA, "Garlic");
+        values.put(SAYUR_GAMBAR_RES_ID, R.drawable.garlic);
+        values.put(SAYUR_AUDIO_RES_ID, R.raw.garlic);
+        db.insert(TABLE_SAYUR, null, values); values.clear();
+
+        values.put(SAYUR_NAMA, "Lettuce");
+        values.put(SAYUR_GAMBAR_RES_ID, R.drawable.lettuce);
+        values.put(SAYUR_AUDIO_RES_ID, R.raw.lettuce);
+        db.insert(TABLE_SAYUR, null, values); values.clear();
+
+        values.put(SAYUR_NAMA, "Onion");
+        values.put(SAYUR_GAMBAR_RES_ID, R.drawable.onion);
+        values.put(SAYUR_AUDIO_RES_ID, R.raw.onions);
+        db.insert(TABLE_SAYUR, null, values); values.clear();
+
+        values.put(SAYUR_NAMA, "Leeks");
+        values.put(SAYUR_GAMBAR_RES_ID, R.drawable.leeks);
+        values.put(SAYUR_AUDIO_RES_ID, R.raw.leeks);
+        db.insert(TABLE_SAYUR, null, values); values.clear();
+
+        values.put(SAYUR_NAMA, "Peas");
+        values.put(SAYUR_GAMBAR_RES_ID, R.drawable.peas);
+        values.put(SAYUR_AUDIO_RES_ID, R.raw.peas);
+        db.insert(TABLE_SAYUR, null, values); values.clear();
+
+        values.put(SAYUR_NAMA, "Potato");
+        values.put(SAYUR_GAMBAR_RES_ID, R.drawable.potato);
+        values.put(SAYUR_AUDIO_RES_ID, R.raw.potato);
         db.insert(TABLE_SAYUR, null, values); values.clear();
 
         values.put(SAYUR_NAMA, "Turnip");
@@ -103,7 +138,6 @@ public class DBHelper extends SQLiteOpenHelper {
         values.put(SAYUR_GAMBAR_RES_ID, R.drawable.waterchestnut);
         values.put(SAYUR_AUDIO_RES_ID, R.raw.water_chestnut);
         db.insert(TABLE_SAYUR, null, values); values.clear();
-
 
         values.put(SAYUR_NAMA, "Zucchini");
         values.put(SAYUR_GAMBAR_RES_ID, R.drawable.zucchini);
@@ -146,10 +180,91 @@ public class DBHelper extends SQLiteOpenHelper {
         values.put(BUAH_AUDIO_RES_ID, R.raw.cantaloupe);
         db.insert(TABLE_BUAH, null, values); values.clear();
 
+        values.put(BUAH_NAMA, "Cherry");
+        values.put(BUAH_GAMBAR_RES_ID, R.drawable.cherry);
+        values.put(BUAH_AUDIO_RES_ID, R.raw.cherry);
+        db.insert(TABLE_BUAH, null, values); values.clear();
+
+        values.put(BUAH_NAMA, "Corn");
+        values.put(BUAH_GAMBAR_RES_ID, R.drawable.corn);
+        values.put(BUAH_AUDIO_RES_ID, R.raw.corn);
+        db.insert(TABLE_BUAH, null, values); values.clear();
+
+        values.put(BUAH_NAMA, "Cucumber");
+        values.put(BUAH_GAMBAR_RES_ID, R.drawable.cucumber);
+        values.put(BUAH_AUDIO_RES_ID, R.raw.cucumber);
+        db.insert(TABLE_BUAH, null, values); values.clear();
+
+        values.put(BUAH_NAMA, "Dragon Fruit");
+        values.put(BUAH_GAMBAR_RES_ID, R.drawable.dragon_fruit);
+        values.put(BUAH_AUDIO_RES_ID, R.raw.dragon_fruit);
+        db.insert(TABLE_BUAH, null, values); values.clear();
+
+        values.put(BUAH_NAMA, "Eggplant");
+        values.put(BUAH_GAMBAR_RES_ID, R.drawable.eggplant);
+        values.put(BUAH_AUDIO_RES_ID, R.raw.eggplant);
+        db.insert(TABLE_BUAH, null, values); values.clear();
+
+        values.put(BUAH_NAMA, "Grapes");
+        values.put(BUAH_GAMBAR_RES_ID, R.drawable.grapes);
+        values.put(BUAH_AUDIO_RES_ID, R.raw.grapes);
+        db.insert(TABLE_BUAH, null, values); values.clear();
+
+        values.put(BUAH_NAMA, "Kiwi");
+        values.put(BUAH_GAMBAR_RES_ID, R.drawable.kiwi);
+        values.put(BUAH_AUDIO_RES_ID, R.raw.kiwi);
+        db.insert(TABLE_BUAH, null, values); values.clear();
+
+        values.put(BUAH_NAMA, "Lemon");
+        values.put(BUAH_GAMBAR_RES_ID, R.drawable.lemon);
+        values.put(BUAH_AUDIO_RES_ID, R.raw.lemon);
+        db.insert(TABLE_BUAH, null, values); values.clear();
+
+        values.put(BUAH_NAMA, "Mango");
+        values.put(BUAH_GAMBAR_RES_ID, R.drawable.mango);
+        values.put(BUAH_AUDIO_RES_ID, R.raw.mango);
+        db.insert(TABLE_BUAH, null, values); values.clear();
+
+        values.put(BUAH_NAMA, "Orange");
+        values.put(BUAH_GAMBAR_RES_ID, R.drawable.orange);
+        values.put(BUAH_AUDIO_RES_ID, R.raw.orange);
+        db.insert(TABLE_BUAH, null, values); values.clear();
+
+        values.put(BUAH_NAMA, "Papaya");
+        values.put(BUAH_GAMBAR_RES_ID, R.drawable.papaya);
+        values.put(BUAH_AUDIO_RES_ID, R.raw.papaya);
+        db.insert(TABLE_BUAH, null, values); values.clear();
+
+        values.put(BUAH_NAMA, "Pineapple");
+        values.put(BUAH_GAMBAR_RES_ID, R.drawable.pineapple);
+        values.put(BUAH_AUDIO_RES_ID, R.raw.pineapple);
+        db.insert(TABLE_BUAH, null, values); values.clear();
+
+        values.put(BUAH_NAMA, "Rambutan");
+        values.put(BUAH_GAMBAR_RES_ID, R.drawable.rambutan);
+        values.put(BUAH_AUDIO_RES_ID, R.raw.rambutan);
+        db.insert(TABLE_BUAH, null, values); values.clear();
+
+        values.put(BUAH_NAMA, "Starfruit");
+        values.put(BUAH_GAMBAR_RES_ID, R.drawable.starfruit);
+        values.put(BUAH_AUDIO_RES_ID, R.raw.starfruit);
+        db.insert(TABLE_BUAH, null, values); values.clear();
+
+        values.put(BUAH_NAMA, "Strawberry");
+        values.put(BUAH_GAMBAR_RES_ID, R.drawable.strawberry);
+        values.put(BUAH_AUDIO_RES_ID, R.raw.strawberry);
+        db.insert(TABLE_BUAH, null, values); values.clear();
+
+        values.put(BUAH_NAMA, "Tomato");
+        values.put(BUAH_GAMBAR_RES_ID, R.drawable.tomato);
+        values.put(BUAH_AUDIO_RES_ID, R.raw.tomato);
+        db.insert(TABLE_BUAH, null, values); values.clear();
+
         values.put(BUAH_NAMA, "Watermelon");
         values.put(BUAH_GAMBAR_RES_ID, R.drawable.watermelon);
         values.put(BUAH_AUDIO_RES_ID, R.raw.watermelon);
         db.insert(TABLE_BUAH, null, values); values.clear();
+
     }
 
 
@@ -160,45 +275,8 @@ public class DBHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public List<Buah> getAllBuah() {
-        List<Buah> list = new ArrayList<>();
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_BUAH, null);
-
-        if (cursor.moveToFirst()) {
-            do {
-                int id = cursor.getInt(cursor.getColumnIndexOrThrow(BUAH_ID));
-                String nama = cursor.getString(cursor.getColumnIndexOrThrow(BUAH_NAMA));
-                int gambarResId = cursor.getInt(cursor.getColumnIndexOrThrow(BUAH_GAMBAR_RES_ID));
-                int audioResId = cursor.getInt(cursor.getColumnIndexOrThrow(BUAH_AUDIO_RES_ID));
-                list.add(new Buah(id, nama, gambarResId, audioResId));
-            } while (cursor.moveToNext());
-        }
-
-        cursor.close();
-        db.close();
-        return list;
-    }
-
-    public List<Sayur> getAllSayur() {
-        List<Sayur> list = new ArrayList<>();
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_SAYUR, null);
-
-        if (cursor.moveToFirst()) {
-            do {
-                int id = cursor.getInt(cursor.getColumnIndexOrThrow(SAYUR_ID));
-                String nama = cursor.getString(cursor.getColumnIndexOrThrow(SAYUR_NAMA));
-                int gambarResId = cursor.getInt(cursor.getColumnIndexOrThrow(SAYUR_GAMBAR_RES_ID));
-                int audioResId = cursor.getInt(cursor.getColumnIndexOrThrow(SAYUR_AUDIO_RES_ID));
-
-                list.add(new Sayur(id, nama, gambarResId, audioResId));
-            } while (cursor.moveToNext());
-        }
-
-        cursor.close();
-        db.close();
-        return list;
+    public void resetDatabase(Context context) {
+        context.deleteDatabase(DATABASE_NAME);
     }
 
     @SuppressLint("Recycle")
@@ -226,7 +304,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 int id = cursor.getInt(cursor.getColumnIndexOrThrow(SAYUR_ID));
                 String nama = cursor.getString(cursor.getColumnIndexOrThrow(SAYUR_NAMA));
                 int gambarResId = cursor.getInt(cursor.getColumnIndexOrThrow(SAYUR_GAMBAR_RES_ID));
-                int audioResId = cursor.getInt(cursor.getColumnIndexOrThrow(BUAH_AUDIO_RES_ID));
+                int audioResId = cursor.getInt(cursor.getColumnIndexOrThrow(SAYUR_AUDIO_RES_ID));
                 list.add(new Gabungan(id, nama, gambarResId, audioResId));
             } while (cursor.moveToNext());
         }
@@ -234,20 +312,5 @@ public class DBHelper extends SQLiteOpenHelper {
         db.close();
         return list;
     }
-
-    public String getAudioPath(String namaItem) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        String audioPath = null;
-
-        Cursor cursor = db.rawQuery("SELECT audio FROM tabel_buah_sayur WHERE nama = ?", new String[]{namaItem});
-        if (cursor.moveToFirst()) {
-            audioPath = cursor.getString(0);
-        }
-        cursor.close();
-        db.close();
-        return audioPath;
-    }
-
-
 }
 

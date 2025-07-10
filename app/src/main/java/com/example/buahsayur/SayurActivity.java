@@ -66,7 +66,7 @@ public class SayurActivity extends AppCompatActivity {
 
         tts = new TextToSpeech(this, status -> {
             if (status == TextToSpeech.SUCCESS) {
-                int result = tts.setLanguage(new Locale("id", "ID"));
+                int result = tts.setLanguage(new Locale("en", "EN"));
                 if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
                     Toast.makeText(this, "Bahasa tidak didukung", Toast.LENGTH_SHORT).show();
                 }

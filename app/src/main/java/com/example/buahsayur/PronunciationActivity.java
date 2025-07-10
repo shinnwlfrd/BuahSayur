@@ -3,6 +3,7 @@ package com.example.buahsayur;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -31,6 +32,8 @@ public class PronunciationActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        new DBHelper(this).resetDatabase(this);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pronuncation);
 
@@ -99,7 +102,10 @@ public class PronunciationActivity extends AppCompatActivity {
     }
 
     private void tampilkanGambar() {
-        if (daftarSemua.isEmpty()) return;
+        if (daftarSemua.isEmpty()) {
+            Toast.makeText(this, "Daftar kosong", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         int newIndex;
         do {
@@ -110,8 +116,21 @@ public class PronunciationActivity extends AppCompatActivity {
         currentIndex = newIndex;
 
         Gabungan item = daftarSemua.get(currentIndex);
-        imageView.setImageResource(item.getGambar());
+
+        // Validasi resource ID
+        if (item.getGambar() == 0) {
+            Toast.makeText(this, "Gambar tidak tersedia untuk: " + item.getNama(), Toast.LENGTH_SHORT).show();
+            imageView.setImageResource(R.drawable.ic_cross);
+        } else {
+            try {
+                imageView.setImageResource(item.getGambar());
+            } catch (Exception e) {
+                Log.e("PronunciationActivity", "Error loading image: " + e.getMessage());
+                imageView.setImageResource(R.drawable.ic_cross);
+            }
+        }
     }
+
 
 
 

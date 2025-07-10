@@ -21,14 +21,13 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Random;
 
 public class QuizPronenActivity extends AppCompatActivity {
 
     private static final int REQUEST_PERMISSION = 200;
 
-    ImageView imageView;
+    ImageView imageView, checkIcon;
     ImageButton btnMic,BackButton;
     TextView txtResult;
 
@@ -36,6 +35,7 @@ public class QuizPronenActivity extends AppCompatActivity {
     List<Gabungan> daftarsemua;
     Random random = new Random();
     private int currentIndex;
+    private boolean jawabanSudahDiverifikasi = false;
 
     private int totalScore = 0;
     private int questionCount = 0;
@@ -47,6 +47,7 @@ public class QuizPronenActivity extends AppCompatActivity {
         setContentView(R.layout.quizpronen);
 
         imageView = findViewById(R.id.gambarGabungan);
+        checkIcon = findViewById(R.id.check);
         btnMic = findViewById(R.id.micButton);
         txtResult = findViewById(R.id.txtResult);
 
@@ -89,6 +90,17 @@ public class QuizPronenActivity extends AppCompatActivity {
                 });
 
         btnMic.setOnClickListener(v -> mulaiDeteksiSuara(speechRecognitionLauncher));
+
+        checkIcon.setOnClickListener(v -> {
+            if (jawabanSudahDiverifikasi) {
+                jawabanSudahDiverifikasi = false;
+                txtResult.setText("");
+                checkIcon.setBackgroundResource(R.drawable.microfon);
+                tampilkanSoal();
+            } else {
+                mulaiDeteksiSuara(speechRecognitionLauncher);
+            }
+        });
     }
 
     private void tampilkanSoal() {
@@ -120,6 +132,9 @@ public class QuizPronenActivity extends AppCompatActivity {
     }
     
     private void cekJawaban(String userAnswer) {
+        jawabanSudahDiverifikasi = true;
+        checkIcon.setBackgroundResource(R.drawable.arrow_right);
+
         Gabungan item = daftarsemua.get(currentIndex);
         String correctAnswer = item.getNama().toLowerCase();
 
@@ -131,7 +146,6 @@ public class QuizPronenActivity extends AppCompatActivity {
             txtResult.setText("❌ Salah. Jawaban yang benar adalah: " + correctAnswer);
             txtResult.setTextColor(getColor(android.R.color.holo_red_dark));
         }
-        imageView.postDelayed(() -> tampilkanSoal(), 1500);
     }
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
