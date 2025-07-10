@@ -78,7 +78,7 @@ public class BuahActivity extends AppCompatActivity {
 
         try {
             tflite = new Interpreter(loadModelFile("model_buah.tflite"));
-            labelList = loadLabelList("label.txt");
+            labelList = loadLabelList("labels.txt");
         } catch (
                 IOException e) {
             e.printStackTrace();
