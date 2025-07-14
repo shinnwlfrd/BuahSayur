@@ -107,29 +107,49 @@ public class SayurActivity extends AppCompatActivity {
         }
     }
 
-    private void classifyImage(Bitmap bitmap) {
-        int inputWidth = 100;
-        int inputHeight = 100;
+    private void classifyImage(Bitmap image) {
+        //Resize gambar ke 224x224 (sesuai kebutuhan model)
+        Bitmap resizedImage = Bitmap.createScaledBitmap(image, 224, 224, true);
 
-        Bitmap resized = Bitmap.createScaledBitmap(bitmap, inputWidth, inputHeight, true);
-        ByteBuffer input = convertBitmapToByteBuffer(resized, inputWidth, inputHeight);
+        // Siapkan ByteBuffer untuk input model
+        ByteBuffer inputBuffer = ByteBuffer.allocateDirect(4 * 224 * 224 * 3); // 4 byte = float32
+        inputBuffer.order(ByteOrder.nativeOrder());
 
+        int[] pixels = new int[224 * 224];
+        resizedImage.getPixels(pixels, 0, 224, 0, 0, 224, 224);
+
+        for (int pixel : pixels) {
+            float r = ((pixel >> 16) & 0xFF) / 255.f;
+            float g = ((pixel >> 8) & 0xFF) / 255.f;
+            float b = (pixel & 0xFF) / 255.f;
+
+            inputBuffer.putFloat(r);
+            inputBuffer.putFloat(g);
+            inputBuffer.putFloat(b);
+        }
+
+        // Output: jumlah label
         float[][] output = new float[1][labelList.size()];
-        tflite.run(input, output);
 
+        // Jalankan model
+        tflite.run(inputBuffer, output);
+
+        // Cari hasil dengan skor tertinggi
         int maxIndex = 0;
-        float maxConfidence = 0;
-        for (int i = 0; i < labelList.size(); i++) {
-            if (output[0][i] > maxConfidence) {
-                maxConfidence = output[0][i];
+        float maxScore = output[0][0];
+
+        for (int i = 1; i < labelList.size(); i++) {
+            if (output[0][i] > maxScore) {
+                maxScore = output[0][i];
                 maxIndex = i;
             }
         }
 
-        String label = labelList.get(maxIndex);
-        namaSayur.setText(label);
-        tts.speak(label, TextToSpeech.QUEUE_FLUSH, null, null);
+        String hasil = labelList.get(maxIndex);
+        namaSayur.setText(hasil);
+        tts.speak(hasil, TextToSpeech.QUEUE_FLUSH, null, null);
     }
+
 
 
     private MappedByteBuffer loadModelFile(String modelName) throws IOException {

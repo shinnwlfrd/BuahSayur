@@ -61,7 +61,6 @@ public class BuahActivity extends AppCompatActivity {
         backButton = findViewById(R.id.back);
 
         nextButton.setOnClickListener(v -> openCamera());
-
         backButton.setOnClickListener(v -> finish());
 
         tts = new TextToSpeech(this, status -> {
@@ -107,15 +106,27 @@ public class BuahActivity extends AppCompatActivity {
         }
     }
 
-    private void classifyImage(Bitmap bitmap) {
-        int inputWidth = 100;
-        int inputHeight = 100;
+    private void classifyImage(Bitmap image) {
+        Bitmap resizedImage = Bitmap.createScaledBitmap(image, 512, 512, true);
 
-        Bitmap resized = Bitmap.createScaledBitmap(bitmap, inputWidth, inputHeight, true);
-        ByteBuffer input = convertBitmapToByteBuffer(resized, inputWidth, inputHeight);
+        ByteBuffer inputBuffer = ByteBuffer.allocateDirect(4 * 512 * 512 * 3); // float32
+        inputBuffer.order(ByteOrder.nativeOrder());
+
+        int[] pixels = new int[512 * 512];
+        resizedImage.getPixels(pixels, 0, 512, 0, 0, 512, 512);
+
+        for (int pixel : pixels) {
+            float r = ((pixel >> 16) & 0xFF) / 255.f;
+            float g = ((pixel >> 8) & 0xFF) / 255.f;
+            float b = (pixel & 0xFF) / 255.f;
+
+            inputBuffer.putFloat(r);
+            inputBuffer.putFloat(g);
+            inputBuffer.putFloat(b);
+        }
 
         float[][] output = new float[1][labelList.size()];
-        tflite.run(input, output);
+        tflite.run(inputBuffer, output);
 
         int maxIndex = 0;
         float maxConfidence = 0;

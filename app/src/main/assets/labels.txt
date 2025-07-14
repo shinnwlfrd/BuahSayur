@@ -1,3 +1,6 @@
+Apple braeburn
+Apple crimson snow
+Apple granny smith
 Avocado Black
 Avocado Green
 Banana
@@ -5,17 +8,24 @@ Banana 2
 Beans
 Blackberrie 1
 Blackberrie 2
+Blackberrie half rippen
+Blackberrie not rippen
+Cabbage red
+Cactus fruit green
+Cactus fruit red
+Caju seed
+Carrot
+Cherimoya
+Cherry
 Cucumber
 Cucumber 2
+Eggplant long
 Gooseberry
+Pear
 Pistachio
 Tomato
 Tomato 2
 Tomato 3
-apple_braeburn
-apple_crimson_snow
-apple_granny_smith
-eggplant long
-pear
-zucchini
-zucchini dark
+Zucchini
+Zucchini dark
+cabbage white
